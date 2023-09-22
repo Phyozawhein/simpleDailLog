@@ -1,0 +1,9 @@
+.card{
+    background-color:aliceblue;
+    box-sizing: border-box;
+    width:500px;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
