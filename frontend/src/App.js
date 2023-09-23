@@ -1,11 +1,13 @@
-import logo from './logo.svg';
+
 import './App.css';
 import {useState, useCallback} from 'react';
 import Auth from './pages/Auth/Auth';
 import Home from './pages/Home/Home';
 import PackageManagment from './pages/PackageManagement/PackageManagment';
-import {BrowserRouter, Route, Switch}  from 'react-router-dom';
+import {BrowserRouter, Route, Navigate, Routes}  from 'react-router-dom';
 import AuthContext from './context/auth/auth-context';
+
+
 
 function App() {
   let routes;
@@ -17,30 +19,35 @@ function App() {
     setToken(null);
   },[])
   
-  // if (token){
-  //   routes = (
-  //     <Switch>
-  //       <Route path="/" exact>
-  //         <Home/>
-  //       </Route>
-  //       <Route path="/package-managment" exact>
-  //         <PackageManagment/>
-  //       </Route>
-  //       <Redirect to="/"/>
-  //     </Switch>
-  //   )
+  if (token){
+    
+    routes = (
+      <Routes>
+        <Route 
+        path="/package-managment" 
+        exact
+        element={<PackageManagment/>}
+        />
+        <Route 
+        path="/" 
+         
+        element={<Home/>}/>
+        <Route place="*" element={<Navigate to="/" replace/>}/>
+      </Routes>
+    )
 
-  // }else{
-  //   routes = (
-  //     <Switch>
-  //       <Route path="/auth" exact>
-  //         <Auth />
-  //       </Route>
-  //       <Redirect to="/auth"/>
-  //     </Switch>
-  //   )
-  // }
-
+  }else{
+    
+    routes = (
+      <Routes>
+        <Route 
+          path="/login" 
+          element={<Auth />} />
+        <Route path="*" element={<Navigate to="/login" />}/>
+      </Routes>
+    )
+  }
+  
   return (
     <AuthContext.Provider   
     value={{
@@ -51,8 +58,7 @@ function App() {
     }}>
       <BrowserRouter>
           <main>
-            {/* {routes} */}
-            <Auth />
+            {routes}
           </main>
       </BrowserRouter>
     </AuthContext.Provider>

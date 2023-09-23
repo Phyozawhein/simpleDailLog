@@ -99,12 +99,15 @@ async function saveCredentials(client) {
           spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
           range: 'Sheet2!A1:B',
         });
-        return {email:res.data.values[0], password:res.data.values[1]}
+        const row = res.data.values[0];
+        
+        return {email:row[0], password:row[1]}
       }
 
 
       async function authLogin(){
-        return authorize().then(getLoginData)
+        const data = await authorize().then(getLoginData)
+        return data
       }
 
       async function getInventory(){
