@@ -1,4 +1,5 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import Card from '../../shared/components/card/Card'
 import Input from '../../shared/form-components/input/Input';
 import {useForm} from '../../utils/hooks/form-hooks';
@@ -11,11 +12,11 @@ const Auth =()=>{
     });
     const auth = useContext(authContext)
     const {isLoading, error, sendRequest, clearError}=useHttpClient();
-
+    const navigate = useNavigate();
     const authSubmitHandler = async (event)=>{
         event.preventDefault();
         try{
-                const response = await  sendRequest('https://localhost:5000/api/login',
+                const response = await  sendRequest('http://localhost:5000/api/login',
                 'POST',
                 JSON.stringify({
                     email: formState.inputs.email,
@@ -24,10 +25,12 @@ const Auth =()=>{
                 {'Content-Type':'application/json'}
                 );
                 if(!response.token){
-                    throw(new Error('error'))
+                    throw(new Error(response.message))
                 }
                 auth.login(response.token)
-            }catch(error){
+                
+                navigate('/')
+               }catch(error){
                 console.log('Error logging in: '+error.message);
             }
     }

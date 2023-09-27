@@ -24,18 +24,21 @@ const login= async (req,res,next)=>{
        const isValidEmail = await bCrypt.compare(email,credentials.email)
        const isValidPassword = await bCrypt.compare(password, credentials.password);
        isValid = isValidEmail && isValidPassword;
-      // console.log(isValidEmail,isValidPassword,isValid)
     }catch(error){
        return next('Invalid Credentials')
     }
-    let token;
-    try{
-       token = jwt.sign({email},'private_token',{expiresIn :'1h'});
-    }catch(error){
-       return next('Erorr loggin in.')
+    if(isValid){
+      let token;
+      try{
+         token = jwt.sign({email},'private_token',{expiresIn :'1h'});
+      }catch(error){
+         return next('Erorr loggin in.')
+      }
+      res.json({token})
     }
-    res.json({token})
-   
+    else{
+      res.json({message:'Invalid credentials',code:404})
+    }
    }
 
 const listPackage = async(req,res,next)=>{
