@@ -1,4 +1,4 @@
-
+import React from 'react';
 import './App.css';
 import {useState, useCallback} from 'react';
 import Auth from './pages/Auth/Auth';
@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import PackageManagment from './pages/PackageManagement/PackageManagment';
 import {BrowserRouter, Route, Navigate, Routes}  from 'react-router-dom';
 import AuthContext from './context/auth/auth-context';
+import Navbar from './shared/components/Navbar/Navbar';
 
 
 
@@ -22,6 +23,8 @@ function App() {
   if (token){
     
     routes = (
+      <React.Fragment>
+      <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"}]}/>
       <Routes>
         <Route 
         path="/package-managment" 
@@ -30,10 +33,10 @@ function App() {
         />
         <Route 
         path="/" 
-         
         element={<Home/>}/>
         <Route place="*" element={<Navigate to="/" replace/>}/>
       </Routes>
+      </React.Fragment>
     )
 
   }else{

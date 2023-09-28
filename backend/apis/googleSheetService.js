@@ -51,16 +51,15 @@ async function saveCredentials(client) {
  * Load or request or authorization to call APIs.
  *
  */
- 
-    
-    
-    async function authorize() {
+     
+    async function authorize(scopes=['https://www.googleapis.com/auth/spreadsheets.readonly']) {
+      
         let client = await loadSavedCredentialsIfExist();
         if (client) {
           return client;
         }
         client = await authenticate({
-          scopes: SCOPES,
+          scopes,
           keyfilePath: CREDENTIALS_PATH,
         });
         if (client.credentials) {
@@ -69,21 +68,6 @@ async function saveCredentials(client) {
         return client;
       }
       
-
-      
-      // async function listResidents(auth) {
-       
-      //   const res = await sheets.spreadsheets.values.get({
-      //     spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-      //     range: 'Sheet1!A1:H',
-      //   });
-      
-      //   rows.forEach((row) => {
-      //     // Print columns A and E, which correspond to indices 0 and 4.
-      //     console.log(res.data.values);
-      //   });
-      // }
-
       async function listPackages(auth){
         const sheets = google.sheets({version: 'v4', auth});
         const res = await sheets.spreadsheets.values.get({
@@ -111,7 +95,7 @@ async function saveCredentials(client) {
       }
 
       async function getInventory(){
-        const data= await authorize().then(listPackages)
+        const data= await authorize(['https://www.googleapis.com/auth/spreadsheets']).then(listPackages)
        
         return data
       }
