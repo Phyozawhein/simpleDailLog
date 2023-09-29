@@ -42,15 +42,21 @@ const login= async (req,res,next)=>{
    }
 
 const listPackage = async(req,res,next)=>{
-    let packages
+    let packages=[]
     try{
         
-        packages = await getInventory();
+        const pkgs = await getInventory();
+
+        for (let i =0;i<pkgs.length; i++){
+         packages.push({"apt":pkgs[i][0], "packages": pkgs[i][1]})
+        }
+        
         
     }catch(error){
         return next( new Error('Error fetching package invenotry '+error.message))
     }
-    res.json({packages})
+
+    res.json(packages)
 
 }
 

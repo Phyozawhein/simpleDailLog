@@ -25,7 +25,9 @@ const Auth =()=>{
                 {'Content-Type':'application/json'}
                 );
                 if(!response.token){
-                    throw(new Error(response.message))
+                    console.log(response);
+                    throw(new Error(response.message));
+                    
                 }
                 auth.login(response.token)
                 

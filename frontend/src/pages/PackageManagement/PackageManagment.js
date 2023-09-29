@@ -17,18 +17,21 @@ const PackageManagment =()=>{
                 if(!response){
                     throw(new Error('Error fetching package data'));
                 }
-                console.log(response)
+                
                 setPackages(response);
                }catch(error){
-                console.log('Error logging in: '+error.message);
+                console.log('Error fetching data: '+error.message);
             }
     }
 
     useEffect(()=>{
-        pullPackageData()
+        pullPackageData();
     },[])
     return <div>
         <h2>Package Managment</h2>
+        {/* <ul>
+            {packages.map((item,index)=><li>{item.apt} : {item.packages}</li>)}
+        </ul> */}
     </div>
 }
 
