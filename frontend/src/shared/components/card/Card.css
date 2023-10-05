@@ -1,9 +1,11 @@
 .card{
     background-color:aliceblue;
     box-sizing: border-box;
-    width:500px;
+    width:100%;
     height:100%;
     display:flex;
     flex-direction: column;
     align-items: center;
+    padding:1rem;
+    border-radius:20px;
 }

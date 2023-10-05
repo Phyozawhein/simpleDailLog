@@ -17,21 +17,21 @@ const PackageManagment =()=>{
                     authorization: `Bearer ${auth.token}`,
                     'Content-Type':'application/json'}
                 );
-                if(!response){
-                    throw(new Error('Error fetching package data'));
-                }
                 
+                if(!response){
+                    throw(new Error('Error fetching package data.'));
+                }
                 setPackages(response);
                }catch(error){
-                console.log('Error fetching data: '+error.message);
             }
     }
 
     useEffect(()=>{
         pullPackageData();
-    },[])
+    },[sendRequest])
     return <div>
         <h2>Package Managment</h2>
+        {error&&error}
         {packages&&<ul>
             {packages.map((item,index)=><li key={index} >{item.apt} : {item.packages}</li>)}
         </ul>}

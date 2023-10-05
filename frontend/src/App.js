@@ -24,7 +24,7 @@ function App() {
     
     routes = (
       <React.Fragment>
-      <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"}]}/>
+    
       <Routes>
         <Route 
         path="/package-managment" 
@@ -60,8 +60,10 @@ function App() {
       logout: logout
     }}>
       <BrowserRouter>
+          
           <main>
-            {routes}
+          {token && <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"}]}/>}
+          {routes}
           </main>
       </BrowserRouter>
     </AuthContext.Provider>

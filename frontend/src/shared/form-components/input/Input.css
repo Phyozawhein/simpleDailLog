@@ -1,0 +1,14 @@
+input{
+    width:300px;
+    height: 35px;
+    border:none;
+    margin:5px;
+    text-align:center;
+    font-size:20px;
+    
+}
+
+.input-submit{
+    background-color:bisque;
+}
+

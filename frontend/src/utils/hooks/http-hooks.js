@@ -18,24 +18,27 @@ export const useHttpClient=()=>{
                 headers,
                 signal: httpAbortCtrl.signal
             });
-           
-            const  resData = await response.json();
             
+            const  resData = await response.json();
+
             activeHttpRequests.current = activeHttpRequests.current.filter(
                 reqCtrl=> reqCtrl!==httpAbortCtrl);
             
             if (!response.ok){
-                
                 throw new Error(resData.message);
             }
            setIsLoading(false);
            return resData;
 
         }catch(err){
+           
+            if(err.name !== 'AbortError'){
+                setError(err.message);
+                throw err;
+            }
             setIsLoading(false);
-            
-            setError(err.message || "Something went wrong.");
-            throw err;
+           
+          
         }
      
     },[]);
