@@ -1,15 +1,12 @@
 import React from 'react';
-import './Navbar.css';
 import NavItem from '../NavItem/NavItem';
-import { useContext } from 'react';
-import AuthContext from '../../../context/auth/auth-context';
+import './Navbar.css';
 const Navbar =({navItems})=>{
-    const auth = useContext(AuthContext)
+
     return(
-        <nav className="navbar">
-            {navItems.map((item,index) =><NavItem key={index} name={item.name} path={item.path}/>)}
-            <button className="navbar-logout" onClick={auth.logout}>Logout</button>
-        </nav>
+        <ul className="navbar m-2 p-1 bg-white w-full border-2 border-black">
+            {navItems.map((data,index)=> <li key={index}><NavItem name={data.name} link={data.path} logout={data.logout || null}/></li>)}
+        </ul>
     )
 }
 

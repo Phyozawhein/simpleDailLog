@@ -22,7 +22,8 @@ const login= async (req,res,next)=>{
     try{
        const isValidEmail = await bCrypt.compare(email,credentials.email)
        const isValidPassword = await bCrypt.compare(password, credentials.password);
-       isValid = isValidEmail && isValidPassword;
+        isValid = isValidEmail && isValidPassword;
+
 
     }catch(error){
        return next(new HttpError('Error Logging in '+error.message,500))

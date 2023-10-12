@@ -1,0 +1,9 @@
+.navbar{
+    display:flex;
+    flex-direction:row;
+    box-sizing:border-box;
+    justify-content:center;
+    align-items: center;
+    list-style-type: none;
+}
+

@@ -1,0 +1,15 @@
+.navItem{
+    display:inline-block;
+    text-align:center;
+    font-size: 20px;
+    font-weight:bold;
+    border: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.navItemactive{
+    box-shadow: 4px 4px black;
+    transition: all  ease-in-out 0.2s;
+}

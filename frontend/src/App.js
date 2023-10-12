@@ -62,7 +62,7 @@ function App() {
       <BrowserRouter>
           
           <main>
-          {token && <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"}]}/>}
+          {token && <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"},{name:"Logout", logout: logout}]}/>}
           {routes}
           </main>
       </BrowserRouter>
