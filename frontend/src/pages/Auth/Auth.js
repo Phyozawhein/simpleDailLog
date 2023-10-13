@@ -1,6 +1,5 @@
 import React, {useContext, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import Card from '../../shared/components/card/Card'
 import Input from '../../shared/form-components/input/Input';
 import {useForm} from '../../utils/hooks/form-hooks';
 import { useHttpClient } from '../../utils/hooks/http-hooks';
@@ -38,9 +37,9 @@ const Auth =()=>{
     }
 
         return(
-            <div>
+       
                 
-                <Card >
+                <div className="authCard" >
                     <h2 className="authTitle">Welcome to 123 South Front Desk</h2>
                     {error&&error  // replace it with error modal 
                     } 
@@ -64,8 +63,8 @@ const Auth =()=>{
                        />
                         <Input type="submit" value="Login"/>
                     </form>
-                </Card>
-            </div>
+                </div>
+           
         )
     
 }

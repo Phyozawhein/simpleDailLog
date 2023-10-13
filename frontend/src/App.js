@@ -60,11 +60,13 @@ function App() {
       logout: logout
     }}>
       <BrowserRouter>
-          
-          <main>
-          {token && <Navbar navItems={[{name:"Package Managment", path:"/package-managment"}, {name:"Home",path:"/"},{name:"Logout", logout: logout}]}/>}
+          <React.Fragment> 
+
+          {token && <Navbar navItems={[ {name:"Home",path:"/"},{name:"Package Managment", path:"/package-managment"},{name:"Logout", logout: logout}]}/>}
+          <main className="App">          
           {routes}
           </main>
+          </React.Fragment>
       </BrowserRouter>
     </AuthContext.Provider>
   );

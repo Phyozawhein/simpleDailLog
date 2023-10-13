@@ -1,11 +1,36 @@
 .card{
-    background-color:aliceblue;
-    box-sizing: border-box;
-    width:100%;
-    height:100%;
     display:flex;
-    flex-direction: column;
+    box-sizing: border-box;
+    background-color:white;
+    border:2px solid black;
+    width:100px;
+    height: 100px;
+    justify-content: center;
     align-items: center;
-    padding:1rem;
-    border-radius:20px;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+}   
+
+.card:hover{
+    box-shadow:4px 4px black;
+    
 }
+.cardButtons{
+    display:flex;
+
+    flex-wrap:wrap;
+    justify-content: center;
+}
+.cardButtons button{
+    font-weight:bold;
+    margin: 2px;
+    border-radius:50px;
+    padding:2px;
+   
+}
+
+textarea{
+    resize:none;
+    
+}
+
