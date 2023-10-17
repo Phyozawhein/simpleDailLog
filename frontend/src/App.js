@@ -62,7 +62,7 @@ function App() {
       <BrowserRouter>
           <React.Fragment> 
 
-          {token && <Navbar navItems={[ {name:"Home",path:"/"},{name:"Package Managment", path:"/package-managment"},{name:"Logout", logout: logout}]}/>}
+          {token && <Navbar className="navbar" navItems={[ {name:"Home",path:"/"},{name:"Package Managment", path:"/package-managment"},{name:"Logout", logout: logout}]}/>}
           <main className="App">          
           {routes}
           </main>

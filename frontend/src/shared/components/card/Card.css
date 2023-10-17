@@ -1,26 +1,58 @@
 .card{
+    --b:1px;   /* border length*/
+    --c:5px;  /* the cube perspective */
+    
+    --g:calc(var(--c)*0.707); /* 0.707 = cos(45deg) = sin(45deg) */
+    
     display:flex;
     box-sizing: border-box;
     background-color:white;
     border:2px solid black;
-    width:100px;
-    height: 100px;
+    width:110px;
+    height: 110px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     transition: all 0.2s ease-in-out;
+    border-width:var(--b) var(--b) calc(var(--c) + var(--b)) calc(var(--c) + var(--b));
+
+    transform:translate(calc(var(--c)/-1),calc(var(--c)/1));
+  clip-path: 
+    polygon(
+    var(--c) 0%, 
+    var(--c) 0%, 
+    100% 0%, 
+    100% calc(100% - var(--c)),
+    100% calc(100% - var(--c)),
+    var(--c) calc(100% - var(--c)),
+    var(--c) calc(100% - var(--c))
+    );
 }   
 
-.card:hover{
+/* .card:hover{
     box-shadow:4px 4px black;
-    
-}
+} */
+
+
+  .card:hover {
+    transform:translate(0,0);
+    clip-path: 
+      polygon(
+      0% var(--c), 
+      var(--c) 0%, 
+      100% 0%, 
+      100% calc(100% - var(--c)), 
+      calc(100% - var(--c)) 100%, 
+      0% 100%,
+      0% 100%
+      );
+  }
 .cardButtons{
     display:flex;
-
     flex-wrap:wrap;
     justify-content: center;
 }
+
 .cardButtons button{
     font-weight:bold;
     margin: 2px;

@@ -38,9 +38,9 @@ const Auth =()=>{
 
         return(
        
-                
+            <div className="w-full h-full flex items-center justify-center">
                 <div className="authCard" >
-                    <h2 className="authTitle">Welcome to 123 South Front Desk</h2>
+                    <h1 className="authTitle">Welcome to 123 South Front Desk</h1>
                     {error&&error  // replace it with error modal 
                     } 
                     <form onSubmit={authSubmitHandler} className="authForm">
@@ -64,6 +64,7 @@ const Auth =()=>{
                         <Input type="submit" value="Login"/>
                     </form>
                 </div>
+            </div>
            
         )
     
