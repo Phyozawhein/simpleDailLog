@@ -16,6 +16,7 @@ const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal})=>{
     }
     // lets add a promise where the changes are saved (as in we change the states as
     // well after the api has been successfully called) otherwise the states value will remain the same.
+  
   }
     
     return(

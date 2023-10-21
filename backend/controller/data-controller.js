@@ -2,7 +2,7 @@ const bCrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const googleSheetService = require('../apis/googleSheetService');
 const HttpError =require('../models/http-error');
-const {getInventory, authLogin}= googleSheetService;
+const {getInventory, authLogin, updatePackageList}= googleSheetService;
 
 
 
@@ -59,6 +59,21 @@ const listPackage = async(req,res,next)=>{
 
 }
 
+const updatePackage = async(req,res,next)=>{
+   let {update} = req.body
+   let response;
+   try{
+      response = await updatePackageList(update);
+
+  }catch(error){
+      return next(new HttpError('Error updating package invenotry '+error.message,500))
+  }
+
+  res.json(response)
+}
+
+
 
 exports.listPackage = listPackage;
 exports.login = login;
+exports.updatePackage = updatePackage

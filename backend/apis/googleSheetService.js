@@ -100,8 +100,27 @@ async function saveCredentials(client) {
         return data
       }
 
+      async function updateList(auth,payload ) {
+        const sheets = google.sheets({version: 'v4', auth});
+        const data = sheets.spreadsheets.values.update(
+          {
+            auth: auth,
+            spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
+            range: "Sheet3!A2:B",
+            valueInputOption: "USER_ENTERED",
+            resource: {values: payload},
+          }
+        );
+        return data;
+      }
+      async function updatePackageList (payload){
+        const data = await authorize().then((auth)=>updateList(auth,payload))
+        return data
+      }
+
       
 module.exports = {
   getInventory: getInventory,
-  authLogin: authLogin
+  authLogin: authLogin,
+  updatePackageList : updatePackageList,
 }

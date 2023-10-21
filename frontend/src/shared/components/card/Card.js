@@ -8,11 +8,15 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
     const [display,setDisplay] = useState(false)
     const [displayModal,setDisplayModal] = useState(false)
     // const [packages,setPackages] = useState(data.packages);
-    const [comment, setComment] = useState("")
 
-    handleSubmit=()=>{
+
+    handleSubmit= async ()=>{
         // invoke API call to save the data and log the time stamp;
-        
+        try{
+            
+        }catch(err){
+
+        }
         }
     const handleHover =()=>{
         setDisplay(!display)
@@ -30,7 +34,7 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
             onChange={(event)=> setEditPkg(parseInt(event.target.value))}/>
 
         </div>
-        <div>
+        {/* <div>
             <label>Comments:</label>
             <textarea 
             className="w-full p-1 border border-black" 
@@ -38,7 +42,7 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
             rows={4}
             value={comment} 
             onChange={(event)=>setComment(event.target.value)} />
-        </div>
+        </div> */}
     </>
     let comp =  display===false ? 
     <>
@@ -79,7 +83,7 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
              modalTitle={data.apt} 
              modalBody={modBody} 
              handleSubmit={handleSubmit}
-             clearInput={()=> {setEditPkg(0); setComment("")}}/>}
+             clearInput={()=> {setEditPkg(0);}}/>}
             </> )
 }
 

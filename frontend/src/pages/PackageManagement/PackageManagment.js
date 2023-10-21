@@ -6,6 +6,14 @@ import plus from '../../assets/img/plus.svg';
 import bell from '../../assets/img/bell.svg';
 import Card from '../../shared/components/Card/Card'
 import './PackageManagement.css';
+/*
+THERE IS NO WAY TO SPECIFICALLY UPDATE EACH ROW BASED ON VALUE SO WE WILL HAVE TO
+UPDATE BY BATCH (ESSENTIALLY A FULL ON PATCH), THE WAY WE WILL DO IT IS BY UPDATING 
+THE LIST HERE AND UPLOAD THE UPDATED LIST BACK TO SERVER. IF THE REQUEST SUCCEEDS,
+WE WILL UPDATE THE LOCAL STATE SO THAT IT REFLECTS.
+
+WE ALREADY HAVE UPDATE FUNCTION READY ON BACKEND SIDE
+*/
 const PackageManagment =()=>{
     const [showAddEntry,setShowAddEntry] = useState(false);
     const [showNotify,setShowNotify] = useState(false);
@@ -90,7 +98,7 @@ const PackageManagment =()=>{
     return (<>
         {dashboard}
         {showAddEntry && <Modal inputModal 
-        modalTitle="Register Packages" 
+        modalTitle="Add Packages" 
         modalBody={addPackageModal} 
         handleModal={setShowAddEntry} 
         clearInput={()=>{setEditPkg(0); setFocusApt("")}} />}
