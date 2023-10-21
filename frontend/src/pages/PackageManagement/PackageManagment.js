@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHttpClient } from '../../utils/hooks/http-hooks';
+import { useForm } from '../../utils/hooks/form-hooks';
 import AuthContext from '../../context/auth/auth-context';
 import Modal from '../../shared/components/Modal/Modal';
 import plus from '../../assets/img/plus.svg';
@@ -13,15 +14,28 @@ THE LIST HERE AND UPLOAD THE UPDATED LIST BACK TO SERVER. IF THE REQUEST SUCCEED
 WE WILL UPDATE THE LOCAL STATE SO THAT IT REFLECTS.
 
 WE ALREADY HAVE UPDATE FUNCTION READY ON BACKEND SIDE
+
+
+ADDING PACKAGE TO AN APT AKA THOSE WITH 0 PACKAGES WILL ESSENTIALLY 
+BE AN UPDATE FUNCTION AS WELL SINCE WE ARE CHANGING THEIR VALUES FROM 0 TO SOMETHING
+
+TRYING TO USE REDUX STATE FOR FUTURE FEATURE...
 */
 const PackageManagment =()=>{
+    const {isLoading, error, sendRequest, clearError}=useHttpClient();
+    const [formState,inputHandler,setFormData] = useForm({});
+
+
     const [showAddEntry,setShowAddEntry] = useState(false);
     const [showNotify,setShowNotify] = useState(false);
     const [editPkg,setEditPkg] = useState(0)
     const [focusApt,setFocusApt]= useState("")
-    const {isLoading, error, sendRequest, clearError}=useHttpClient();
+
     const [packages,setPackages]=useState(null);
     const auth = useContext(AuthContext);
+
+
+
     const pullPackageData = async ()=>{
         
         try{
@@ -36,13 +50,19 @@ const PackageManagment =()=>{
                 if(!response){
                     throw(new Error('Error fetching package data.'));
                 }
+                
+               
                 setPackages(response);
+                
+                setFormData(response)
+                
                }catch(error){
             }
     }
 
     useEffect(()=>{
         pullPackageData();
+       
     },[sendRequest])
     
     let dashboard =(
@@ -53,7 +73,7 @@ const PackageManagment =()=>{
             {/* <button className="DBBtn  hover:bg-yellow-500" onClick={()=>setShowNotify(true)}><img  src={bell} alt="notify tenants" /></button>        */}
         </span>
         <ul className="dashboard">
-            {packages && packages.map((data,index) =><Card key={index} data={data} editPkg={editPkg} setEditPkg={setEditPkg}/>)}
+            {packages && packages.filter(data => data.packages > 0).map((data,index) =><Card key={index} data={data} editPkg={editPkg} setEditPkg={setEditPkg}/>)}
         </ul>
 
     </div>

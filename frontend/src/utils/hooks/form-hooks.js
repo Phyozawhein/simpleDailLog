@@ -30,6 +30,7 @@ export const useForm=(initialInputs)=>{
     });
     },[])
     const setFormData = useCallback((inputData)=>{
+        
         dispatch({
             type:'SET_DATA',
             inputs: inputData
