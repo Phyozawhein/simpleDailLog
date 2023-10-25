@@ -2,18 +2,20 @@ import React from 'react';
 import './Modal.css';
 import xMark from '../../../assets/img/xMarkLined.svg';
 
-const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal})=>{
+const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleSubmit})=>{
     
   const closeModal =()=>{
       handleModal(false);
       if(inputModal){
+       
          clearInput(); //   * Be sure to clear the input so that we dont save any changes we dont intend to make *
       }
     }
-  const handleSubmit=()=>{
+  const submitHandler=()=>{
     if(!inputModal){
       return null
     }
+    handleSubmit();
     // lets add a promise where the changes are saved (as in we change the states as
     // well after the api has been successfully called) otherwise the states value will remain the same.
   
@@ -39,7 +41,7 @@ const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal})=>{
                 className="m-2 p-1 border border-black bg-green-400 rounded-full hover:bg-green-200" 
                 onClick={(e)=> {
                   e.preventDefault();
-                  handleSubmit();
+                  submitHandler();
                   }}>
                   Save
                 </button>

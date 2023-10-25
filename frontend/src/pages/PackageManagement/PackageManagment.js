@@ -7,20 +7,7 @@ import plus from '../../assets/img/plus.svg';
 import bell from '../../assets/img/bell.svg';
 import Card from '../../shared/components/Card/Card'
 import './PackageManagement.css';
-/*
-THERE IS NO WAY TO SPECIFICALLY UPDATE EACH ROW BASED ON VALUE SO WE WILL HAVE TO
-UPDATE BY BATCH (ESSENTIALLY A FULL ON PATCH), THE WAY WE WILL DO IT IS BY UPDATING 
-THE LIST HERE AND UPLOAD THE UPDATED LIST BACK TO SERVER. IF THE REQUEST SUCCEEDS,
-WE WILL UPDATE THE LOCAL STATE SO THAT IT REFLECTS.
 
-WE ALREADY HAVE UPDATE FUNCTION READY ON BACKEND SIDE
-
-
-ADDING PACKAGE TO AN APT AKA THOSE WITH 0 PACKAGES WILL ESSENTIALLY 
-BE AN UPDATE FUNCTION AS WELL SINCE WE ARE CHANGING THEIR VALUES FROM 0 TO SOMETHING
-
-TRYING TO USE REDUX STATE FOR FUTURE FEATURE...
-*/
 const PackageManagment =()=>{
     const {isLoading, error, sendRequest, clearError}=useHttpClient();
     const [formState,inputHandler,setFormData] = useForm({});
@@ -29,7 +16,7 @@ const PackageManagment =()=>{
     const [showAddEntry,setShowAddEntry] = useState(false);
     const [showNotify,setShowNotify] = useState(false);
     const [editPkg,setEditPkg] = useState(0)
-    const [focusApt,setFocusApt]= useState("")
+    const [focusApt,setFocusApt]= useState()
 
     const [packages,setPackages]=useState(null);
     const auth = useContext(AuthContext);
@@ -59,6 +46,29 @@ const PackageManagment =()=>{
                }catch(error){
             }
     }
+    const handleUpdate =async()=>{
+        let payload = JSON.parse(JSON.stringify(packages))
+        payload[focusApt].packages = editPkg;
+
+        try{
+            const response = await sendRequest(
+                "http://localhost:5000/api/packages/update",
+                'PATCH',
+                {update:payload},
+                {
+                    authorization: `Bearer ${auth.token}`,
+                    'Content-Type':'application/json'}
+            );
+            if(!response){
+                throw(new Error('Error updating package list.'));
+            }
+            
+
+        }catch(error){
+
+        }
+        
+    }
 
     useEffect(()=>{
         pullPackageData();
@@ -69,11 +79,22 @@ const PackageManagment =()=>{
         <div className="container">
         <span className="title">
             <span >Package list</span>
+            
             <button className="DBBtn  hover:bg-green-500" onClick={()=>setShowAddEntry(true)}><img  src={plus} alt="add package entry"/></button>
             {/* <button className="DBBtn  hover:bg-yellow-500" onClick={()=>setShowNotify(true)}><img  src={bell} alt="notify tenants" /></button>        */}
         </span>
         <ul className="dashboard">
-            {packages && packages.filter(data => data.packages > 0).map((data,index) =><Card key={index} data={data} editPkg={editPkg} setEditPkg={setEditPkg}/>)}
+            {packages && packages.map((data,index) =>data.packages>0?
+            <Card key={index}
+             data={data} 
+             editPkg={editPkg} 
+             idx = {index}
+             setFocusApt={setFocusApt} 
+             setEditPkg={setEditPkg}
+             handleEdit= {handleUpdate}/>
+             
+             : 
+             null)}
         </ul>
 
     </div>
@@ -87,7 +108,7 @@ const PackageManagment =()=>{
                 let res=packages.filter((item)=> item.apt === e.target.value);
                 let {pkg,apt} = res.length > 0 ? {pkg:res[0].packages, apt:res[0].apt} : {pkg:0,apt:""};
                 setEditPkg(parseInt(pkg))
-                setFocusApt(apt)
+                setFocusApt(packages.findIndex((item)=>item.apt === apt))
                 }}>
                 <option value="-">-</option>
                 {packages.map((item,indx)=> <option   value={item.apt} key={indx}>{item.apt}</option>)}
@@ -121,7 +142,8 @@ const PackageManagment =()=>{
         modalTitle="Add Packages" 
         modalBody={addPackageModal} 
         handleModal={setShowAddEntry} 
-        clearInput={()=>{setEditPkg(0); setFocusApt("")}} />}
+        handleSubmit ={handleUpdate}
+        clearInput={()=>{setEditPkg(0); setFocusApt()}} />}
         {/* {showNotify && <Modal modalTitle="Notify Tenants" modalBody={NotifyBody} handleModal={setShowNotify}/>} */}
         </>
     )

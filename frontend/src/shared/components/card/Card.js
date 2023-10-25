@@ -3,21 +3,14 @@ import './Card.css';
 import Modal from '../Modal/Modal';
 // import Increment from '../assets/img/plus.svg'
 // import Decrement from '../assets/img/minus.svg'
-const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
+const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
 
     const [display,setDisplay] = useState(false)
     const [displayModal,setDisplayModal] = useState(false)
     // const [packages,setPackages] = useState(data.packages);
 
 
-    handleSubmit= async ()=>{
-        // invoke API call to save the data and log the time stamp;
-        try{
-            
-        }catch(err){
 
-        }
-        }
     const handleHover =()=>{
         setDisplay(!display)
     }
@@ -66,7 +59,7 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
                         Picked
                     </button>
                     <button className="bg-sky-400 border border-black w-16 px-2 rounded-sm hover:bg-sky-200" 
-                    onClick={()=>{setDisplayModal(true); setEditPkg(parseInt(data.packages));}}>
+                    onClick={()=>{setDisplayModal(true); setFocusApt(idx);setEditPkg(parseInt(data.packages));}}>
                         Edit
                     </button>
                 
@@ -82,8 +75,8 @@ const Card= ({data, handleSubmit,setEditPkg, editPkg})=>{
              handleModal={setDisplayModal} 
              modalTitle={data.apt} 
              modalBody={modBody} 
-             handleSubmit={handleSubmit}
-             clearInput={()=> {setEditPkg(0);}}/>}
+             handleSubmit={handleEdit}
+             clearInput={()=> {setEditPkg(0); setFocusApt();}}/>}
             </> )
 }
 
