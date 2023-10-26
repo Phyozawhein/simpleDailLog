@@ -51,22 +51,22 @@ const PackageManagment =()=>{
         payload[focusApt].packages = editPkg;
 
         try{
-            const response = await sendRequest(
-                "http://localhost:5000/api/packages/update",
-                'PATCH',
-                {update:payload},
-                {
-                    authorization: `Bearer ${auth.token}`,
-                    'Content-Type':'application/json'}
+            // must add a measure where if there was an error the values arent changed.
+            const response = await  sendRequest('http://localhost:5000/api/packages/update',
+            'PATCH',
+            JSON.stringify({
+                update:payload
+            }),
+            {'Content-Type':'application/json'}
             );
-            if(!response){
-                throw(new Error('Error updating package list.'));
-            }
-            
 
-        }catch(error){
+            setPackages([...payload]);
 
-        }
+
+
+           }catch(error){
+
+           }
         
     }
 

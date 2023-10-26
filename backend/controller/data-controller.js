@@ -62,16 +62,20 @@ const listPackage = async(req,res,next)=>{
 const updatePackage = async(req,res,next)=>{
    let {update} = req.body
    let response;
-   console.log(update)
-   console.log(req)
-//    try{
-//       response = await updatePackageList(update);
+   let data= [];
+   for(let i=0; i<update.length;i++){
+      data.push([update[i].apt,parseInt(update[i].packages)])
+   }
+   
 
-//   }catch(error){
-//       return next(new HttpError('Error updating package invenotry '+error.message,500))
-//   }
+   try{
+      response = await updatePackageList(data);
 
-   res.json(response)
+  }catch(error){
+      return next(new HttpError('Error updating package invenotry '+error.message,500))
+  }
+
+   res.json({message:"Updated Completed!",code:200})
 }
 
 
