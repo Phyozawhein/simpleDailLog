@@ -10,7 +10,7 @@ import './PackageManagement.css';
 
 const PackageManagment =()=>{
     const {isLoading, error, sendRequest, clearError}=useHttpClient();
-    const [formState,inputHandler,setFormData] = useForm({});
+    const [formState,inputHandler,setPkgData] = useForm({});
 
 
     const [showAddEntry,setShowAddEntry] = useState(false);
@@ -18,7 +18,6 @@ const PackageManagment =()=>{
     const [editPkg,setEditPkg] = useState(0)
     const [focusApt,setFocusApt]= useState()
 
-    const [packages,setPackages]=useState(null);
     const auth = useContext(AuthContext);
 
 
@@ -34,21 +33,22 @@ const PackageManagment =()=>{
                     'Content-Type':'application/json'}
                 );
                 
-                if(!response){
-                    throw(new Error('Error fetching package data.'));
+                if(!response || error){
+                    throw(new Error('Error fetching package data: '+error));
                 }
                 
-               
-                setPackages(response);
                 
-                setFormData(response)
+                setPkgData(response);
+                
+                
                 
                }catch(error){
+                // console.log(error.message)
             }
     }
-    const handleUpdate =async()=>{
-        let payload = JSON.parse(JSON.stringify(packages))
-        payload[focusApt].packages = editPkg;
+    const handleUpdate =async(aptId,pkgNum)=>{
+        let payload = JSON.parse(JSON.stringify(formState.packages))
+        payload[aptId].packages = pkgNum;
 
         try{
             // must add a measure where if there was an error the values arent changed.
@@ -59,13 +59,16 @@ const PackageManagment =()=>{
             }),
             {'Content-Type':'application/json'}
             );
-
-            setPackages([...payload]);
+            if(!response || error){
+                throw(new Error('Error updating package data: '+error));
+            }
+            
+            setPkgData(payload);
 
 
 
            }catch(error){
-
+                // console.log(error.message)
            }
         
     }
@@ -84,14 +87,14 @@ const PackageManagment =()=>{
             {/* <button className="DBBtn  hover:bg-yellow-500" onClick={()=>setShowNotify(true)}><img  src={bell} alt="notify tenants" /></button>        */}
         </span>
         <ul className="dashboard">
-            {packages && packages.map((data,index) =>data.packages>0?
+            {formState.packages && formState.packages.map((data,index) =>data.packages>0?
             <Card key={index}
              data={data} 
              editPkg={editPkg} 
              idx = {index}
              setFocusApt={setFocusApt} 
              setEditPkg={setEditPkg}
-             handleEdit= {handleUpdate}/>
+             handleEdit= {()=>handleUpdate(index,editPkg)}/>
              
              : 
              null)}
@@ -100,18 +103,18 @@ const PackageManagment =()=>{
     </div>
     )
 
-    let addPackageModal=packages&&(
+    let addPackageModal=formState.packages&&(
         <>
         <div>
             <label className="m-2 ">Apartment:</label>
             <select className="m-2 w-20 text-center" onChange={(e)=>{
-                let res=packages.filter((item)=> item.apt === e.target.value);
+                let res=formState.packages.filter((item)=> item.apt === e.target.value);
                 let {pkg,apt} = res.length > 0 ? {pkg:res[0].packages, apt:res[0].apt} : {pkg:0,apt:""};
                 setEditPkg(parseInt(pkg))
-                setFocusApt(packages.findIndex((item)=>item.apt === apt))
+                setFocusApt(formState.packages.findIndex((item)=>item.apt === apt))
                 }}>
                 <option value="-">-</option>
-                {packages.map((item,indx)=> <option   value={item.apt} key={indx}>{item.apt}</option>)}
+                {formState.packages.map((item,indx)=> <option   value={item.apt} key={indx}>{item.apt}</option>)}
             </select>
         </div>
         <div>        
@@ -137,12 +140,18 @@ const PackageManagment =()=>{
     //     </div>
     // )
     return (<>
+        {error && <Modal errorModal 
+        modalTitle="Error" 
+        modalBody={error} 
+        handleModal={setShowAddEntry} 
+        
+        clearInput={clearError} />}
         {dashboard}
         {showAddEntry && <Modal inputModal 
         modalTitle="Add Packages" 
         modalBody={addPackageModal} 
         handleModal={setShowAddEntry} 
-        handleSubmit ={handleUpdate}
+        handleSubmit ={()=>handleUpdate(focusApt,editPkg)}
         clearInput={()=>{setEditPkg(0); setFocusApt()}} />}
         {/* {showNotify && <Modal modalTitle="Notify Tenants" modalBody={NotifyBody} handleModal={setShowNotify}/>} */}
         </>

@@ -2,14 +2,14 @@ import React from 'react';
 import './Modal.css';
 import xMark from '../../../assets/img/xMarkLined.svg';
 
-const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleSubmit})=>{
+const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleSubmit ,errorModal})=>{
     
   const closeModal =()=>{
       handleModal(false);
-      if(inputModal){
-       
+      if(inputModal || errorModal){
          clearInput(); //   * Be sure to clear the input so that we dont save any changes we dont intend to make *
       }
+
     }
   const submitHandler=()=>{
     if(!inputModal){
@@ -27,13 +27,14 @@ const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleS
         <div className="bg-white modalContainer">
           <div><button className="exitButton" onClick={()=>closeModal()}><img src={xMark}/></button></div>
         
-          <div className="modalTitle">
+          <div className={`modalTitle ${errorModal && 'modalError'}`}>
             <h1>{modalTitle}</h1>
           </div>
           <form >
-          <div className="modalBody">
+          <div className={`modalBody ${errorModal && 'modalError'}`}>
               {modalBody}
-          </div>
+          </div> 
+
           <div className="modalActions">
               {inputModal && <>
                 <button 

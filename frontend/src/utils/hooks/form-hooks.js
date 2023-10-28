@@ -10,9 +10,14 @@ const formReducer =(state,action)=>{
                 ...state.inputs, 
                 [action.inputId]: action.value
         } };
-        case 'SET_DATA': return{
-            inputs: action.inputs
+        case 'INIT_RES_DATA': return{ 
+            ...state, residents: action.data
         };
+        case 'SET_PKG_DATA': return{
+            ...state,
+            packages: action.data
+        };
+
         default : return state;
     }
 }
@@ -29,12 +34,18 @@ export const useForm=(initialInputs)=>{
             inputId: id
     });
     },[])
-    const setFormData = useCallback((inputData)=>{
-        
+    const setPkgData = useCallback((inputData)=>{
         dispatch({
-            type:'SET_DATA',
-            inputs: inputData
-        })
+            type:'SET_PKG_DATA',
+            data: inputData
+        });
     },[])
-    return [formState,inputHandler,setFormData]
+    const initResData = useCallback((inputData)=>{
+        dispatch({
+            type:'INIT_RES_DATA',
+            data: inputData
+        });
+    })
+
+    return [formState,inputHandler,setPkgData, initResData]
 };

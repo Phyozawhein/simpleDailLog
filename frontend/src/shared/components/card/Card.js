@@ -55,7 +55,7 @@ const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
                
                 <span className="cardButtons">
                     <button className="bg-green-400 border border-black w-16 px-2 rounded-sm hover:bg-green-200"
-                    onClick={()=>alert("Picked")}>
+                    onClick={()=>handleEdit(idx,0)}>
                         Picked
                     </button>
                     <button className="bg-sky-400 border border-black w-16 px-2 rounded-sm hover:bg-sky-200" 

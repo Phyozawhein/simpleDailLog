@@ -34,7 +34,10 @@
 .modalBody{
     vertical-align: center;
 }
-
+.modalError{
+    color:red;
+    
+}
 .exitButton{
     position: relative;
     float:right;
