@@ -43,6 +43,7 @@ const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleS
                 onClick={(e)=> {
                   e.preventDefault();
                   submitHandler();
+                  closeModal();
                   }}>
                   Save
                 </button>
