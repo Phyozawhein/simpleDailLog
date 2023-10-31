@@ -53,9 +53,10 @@ const PackageManagment =()=>{
         try{
             // must add a measure where if there was an error the values arent changed.
             const response = await  sendRequest('http://localhost:5000/api/packages/update',
-            'PATCH',
+            'PUT',
             JSON.stringify({
-                update:payload
+                update:payload,
+                logData: payload[aptId]
             }),
             {'Content-Type':'application/json'}
             );

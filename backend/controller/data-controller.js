@@ -2,7 +2,7 @@ const bCrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const googleSheetService = require('../apis/googleSheetService');
 const HttpError =require('../models/http-error');
-const {getInventory, authLogin, updatePackageList}= googleSheetService;
+const {getInventory, logInventory, authLogin, updatePackageList}= googleSheetService;
 
 
 
@@ -22,8 +22,8 @@ const login= async (req,res,next)=>{
     try{
        const isValidEmail = await bCrypt.compare(email,credentials.email)
        const isValidPassword = await bCrypt.compare(password, credentials.password);
-      //   isValid = isValidEmail && isValidPassword;
-      isValid = true;
+       isValid = isValidEmail && isValidPassword;
+      
 
     }catch(error){
        return next(new HttpError('Error Logging in '+error.message,500))
@@ -60,16 +60,22 @@ const listPackage = async(req,res,next)=>{
 }
 
 const updatePackage = async(req,res,next)=>{
-   let {update} = req.body
+   let {update, logData} = req.body
    let response;
    let data= [];
+   const date = new Date()
+   let updateLog = [[`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,logData.apt,logData.packages]];
+
+  
    for(let i=0; i<update.length;i++){
       data.push([update[i].apt,parseInt(update[i].packages)])
    }
    
 
    try{
+      response = await logInventory(updateLog);
       response = await updatePackageList(data);
+      
 
   }catch(error){
       return next(new HttpError('Error updating package invenotry '+error.message,500))

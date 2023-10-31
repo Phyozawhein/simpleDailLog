@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/login',dataController.login);
 
-router.patch('/packages/update',dataController.updatePackage);
+router.put('/packages/update',dataController.updatePackage);
 
 router.get('/packages', checkAuth, dataController.listPackage);
 

@@ -81,26 +81,13 @@ async function saveCredentials(client) {
         const sheets = google.sheets({version: 'v4', auth});
         const res = await sheets.spreadsheets.values.get({
           spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-          range: 'Sheet2!A1:B',
+          range: 'Sheet2!A1:B1',
         });
         const row = res.data.values[0];
-        
         return {email:row[0], password:row[1]}
       }
 
-
-      async function authLogin(){
-        const data = await authorize().then(getLoginData)
-        return data
-      }
-
-      async function getInventory(){
-        const data= await authorize(['https://www.googleapis.com/auth/spreadsheets']).then(listPackages)
-       
-        return data
-      }
-
-      async function updateList(auth,payload ) {
+      async function updateList(auth,payload) {
         const sheets = google.sheets({version: 'v4', auth});
         const data = sheets.spreadsheets.values.update(
           {
@@ -113,14 +100,46 @@ async function saveCredentials(client) {
         );
         return data;
       }
-      async function updatePackageList (payload){
-        const data = await authorize().then((auth)=>updateList(auth,payload))
+
+      async function logInventoryChange(auth,payload) {
+        const sheets = google.sheets({version: 'v4', auth});
+        const data = sheets.spreadsheets.values.append(
+          {
+            auth: auth,
+            spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
+            range: "inventoryLog!A2:B",
+            insertDataOption: "INSERT_ROWS",
+            valueInputOption: "USER_ENTERED",
+            resource: {values: payload},
+          }
+        );
+        return data;
+      }
+      
+
+      async function authLogin(){
+        const data = await authorize().then(getLoginData)
         return data
       }
 
+      async function getInventory(){
+        const data= await authorize().then(listPackages)
+        return data
+      }
+
+      async function updatePackageList (payload){
+        const data = await authorize(['https://www.googleapis.com/auth/spreadsheets']).then((auth)=>updateList(auth,payload))
+        return data
+      }
+
+      async function logInventory (dataLog){
+        const data = await authorize(['https://www.googleapis.com/auth/spreadsheets']).then((auth)=>logInventoryChange(auth,dataLog))
+        return data
+      }
       
 module.exports = {
   getInventory: getInventory,
+  logInventory: logInventory,
   authLogin: authLogin,
   updatePackageList : updatePackageList,
 }
