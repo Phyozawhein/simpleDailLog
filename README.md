@@ -5,3 +5,8 @@ A simple version of "dailiLog" project, this project allows user to keep track o
 - Maintain an inventory list of packages for each apartment in the building
 - Logs updates to inventory change
 - Authentication 
+
+## Technologies
+- Frontend: React.JS
+- Backend: Node.JS
+- Database: Google Docs
