@@ -7,6 +7,6 @@ A simple version of "dailiLog" project, this project allows user to keep track o
 - Authentication 
 
 ## Technologies
-- Frontend: React.JS
+- Frontend: React.JS, Tailwind CSS
 - Backend: Node.JS
 - Database: Google Docs

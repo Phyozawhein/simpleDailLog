@@ -14,8 +14,8 @@ const PackageManagment =()=>{
 
 
     const [showAddEntry,setShowAddEntry] = useState(false);
-    const [showNotify,setShowNotify] = useState(false);
-    const [editPkg,setEditPkg] = useState(0)
+    // const [showNotify,setShowNotify] = useState(false);
+    const [editPkg,setEditPkg] = useState()
     const [focusApt,setFocusApt]= useState()
 
     const auth = useContext(AuthContext);
