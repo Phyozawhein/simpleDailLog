@@ -60,9 +60,11 @@ function App() {
       logout: logout
     }}>
       <BrowserRouter>
-          <React.Fragment> 
-
-          {token && <Navbar className="navbar" navItems={[ {name:"Home",path:"/"},{name:"Package Managment", path:"/package-managment"},{name:"Logout", logout: logout}]}/>}
+          <React.Fragment > 
+          {token &&
+          <div className="flex flex-col items-center">
+           <Navbar className="navbar" navItems={[ {name:"Home",path:"/"},{name:"Package Managment", path:"/package-managment"},{name:"Logout", logout: logout}]}/>
+          </div>}
           <main className="App">          
           {routes}
           </main>
