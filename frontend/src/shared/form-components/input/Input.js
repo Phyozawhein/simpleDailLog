@@ -10,7 +10,7 @@ const Input =(props)=>{
     })
     if(type==='submit'){
         return(<input 
-        className="input-submit"
+        className={`input-submit ${className}`}
         type={type}
         value={value}
          />)

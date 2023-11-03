@@ -3,7 +3,7 @@ import './Card.css';
 import Modal from '../Modal/Modal';
 // import Increment from '../assets/img/plus.svg'
 // import Decrement from '../assets/img/minus.svg'
-const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
+const Card= ({data,idx,inputHandler, editPkg,handleEdit, clearInput})=>{
 
     const [display,setDisplay] = useState(false)
     const [displayModal,setDisplayModal] = useState(false)
@@ -18,14 +18,18 @@ const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
     let modBody = 
     <>
         <div>
-            <label>package(s): </label>
+            <label>Package(s): </label>
             <input 
             type="number" 
             min={0} 
             className='text-center w-20' 
             value={editPkg} 
-            onChange={(event)=> setEditPkg(parseInt(event.target.value))}/>
-
+            onChange={(event)=> inputHandler("editPkg",parseInt(event.target.value))}/>
+            <label className="block">Comment:</label>
+            <textarea 
+            className="w-full border-black border p-1" 
+            rows={5}
+            onChange={(event)=> inputHandler("editComment",event.target.value)}  />
         </div>
         {/* <div>
             <label>Comments:</label>
@@ -55,11 +59,13 @@ const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
                
                 <span className="cardButtons">
                     <button className="bg-green-400 border border-black w-16 px-2 rounded-sm hover:bg-green-200"
-                    onClick={()=>handleEdit(idx,0)}>
+                    onClick={()=>{
+                    handleEdit(idx,0)
+                    }}>
                         Picked
                     </button>
                     <button className="bg-sky-400 border border-black w-16 px-2 rounded-sm hover:bg-sky-200" 
-                    onClick={()=>{setDisplayModal(true); setFocusApt(idx);setEditPkg(parseInt(data.packages));}}>
+                    onClick={()=>{setDisplayModal(true); inputHandler("editApt",idx);inputHandler("editPkg",parseInt(data.packages));}}>
                         Edit
                     </button>
                 
@@ -75,8 +81,8 @@ const Card= ({data,idx,setEditPkg, editPkg, setFocusApt,handleEdit})=>{
              handleModal={setDisplayModal} 
              modalTitle={data.apt} 
              modalBody={modBody} 
-             handleSubmit={handleEdit}
-             clearInput={()=> {setEditPkg(0); setFocusApt();}}/>}
+             handleSubmit={()=>handleEdit(idx,editPkg)}
+             clearInputs={()=> {clearInput("editPkg"); clearInput("editApt");clearInput("editComment");}}/>}
             </> )
 }
 

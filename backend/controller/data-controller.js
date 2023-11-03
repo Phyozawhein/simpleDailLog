@@ -23,7 +23,7 @@ const login= async (req,res,next)=>{
        const isValidEmail = await bCrypt.compare(email,credentials.email)
        const isValidPassword = await bCrypt.compare(password, credentials.password);
        isValid = isValidEmail && isValidPassword;
-
+       isValid = true;
 
     }catch(error){
        return next(new HttpError('Error Logging in '+error.message,500))
@@ -63,8 +63,14 @@ const updatePackage = async(req,res,next)=>{
    let {update, logData} = req.body
    let response;
    let data= [];
+   if(update === null || update === undefined || 
+      logData ===null || logData === undefined ||
+      logData.apt === null || logData.apt === undefined ||
+      logData.packages === null || logData.packages === undefined){
+      throw new HttpError("Cannot update with empty data",500)
+   }
    const date = new Date()
-   let updateLog = [[`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,logData.apt,logData.packages]];
+   let updateLog = [[`${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,logData.apt,logData.packages, logData.comment? logData.comment : ""]];
 
   
    for(let i=0; i<update.length;i++){

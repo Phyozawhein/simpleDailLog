@@ -17,7 +17,13 @@ const formReducer =(state,action)=>{
             ...state,
             packages: action.data
         };
-
+        case 'CLEAR_INPUT': return{
+            ...state,
+            inputs:{
+                ...state.inputs,
+                [action.inputId]:null
+            }
+        }
         default : return state;
     }
 }
@@ -46,6 +52,12 @@ export const useForm=(initialInputs)=>{
             data: inputData
         });
     })
+    const clearInput= useCallback((id)=>{
+        dispatch({
+            type:"CLEAR_INPUT",
+            inputId:id
+        })
+    })
 
-    return [formState,inputHandler,setPkgData, initResData]
+    return [formState,inputHandler,setPkgData, initResData,clearInput]
 };

@@ -10,13 +10,13 @@ import './PackageManagement.css';
 
 const PackageManagment =()=>{
     const {isLoading, error, sendRequest, clearError}=useHttpClient();
-    const [formState,inputHandler,setPkgData] = useForm({});
+    const [formState,inputHandler,setPkgData, initResData,clearInput] = useForm({});
 
 
     const [showAddEntry,setShowAddEntry] = useState(false);
     // const [showNotify,setShowNotify] = useState(false);
-    const [editPkg,setEditPkg] = useState()
-    const [focusApt,setFocusApt]= useState()
+    // const [editPkg,setEditPkg] = useState()
+    // const [focusApt,setFocusApt]= useState()
 
     const auth = useContext(AuthContext);
 
@@ -47,7 +47,8 @@ const PackageManagment =()=>{
             }
     }
     const handleUpdate =async(aptId,pkgNum)=>{
-        let payload = JSON.parse(JSON.stringify(formState.packages))
+        const editComment = formState.inputs.editComment ? formState.inputs.editComment : "";
+        let payload = JSON.parse(JSON.stringify(formState.packages));
         payload[aptId].packages = pkgNum;
 
         try{
@@ -56,10 +57,11 @@ const PackageManagment =()=>{
             'PUT',
             JSON.stringify({
                 update:payload,
-                logData: payload[aptId]
+                logData:{...payload[aptId], comment: editComment}
             }),
             {'Content-Type':'application/json'}
             );
+       
             if(!response || error){
                 throw(new Error('Error updating package data: '+error));
             }
@@ -91,12 +93,11 @@ const PackageManagment =()=>{
             {formState.packages && formState.packages.map((data,index) =>data.packages>0?
             <Card key={index}
              data={data} 
-             editPkg={editPkg} 
+             editPkg={formState.inputs.editPkg} 
              idx = {index}
-             setFocusApt={setFocusApt} 
-             setEditPkg={setEditPkg}
-             handleEdit= {()=>handleUpdate(index,editPkg)}/>
-             
+             inputHandler={inputHandler} 
+             clearInput ={clearInput}
+             handleEdit= {handleUpdate}/>
              : 
              null)}
         </ul>
@@ -111,8 +112,8 @@ const PackageManagment =()=>{
             <select className="m-2 w-20 text-center" onChange={(e)=>{
                 let res=formState.packages.filter((item)=> item.apt === e.target.value);
                 let {pkg,apt} = res.length > 0 ? {pkg:res[0].packages, apt:res[0].apt} : {pkg:0,apt:""};
-                setEditPkg(parseInt(pkg))
-                setFocusApt(formState.packages.findIndex((item)=>item.apt === apt))
+                inputHandler("editPkg",parseInt(pkg))
+                inputHandler("editApt",formState.packages.findIndex((item)=>item.apt === apt))
                 }}>
                 <option value="-">-</option>
                 {formState.packages.map((item,indx)=> <option   value={item.apt} key={indx}>{item.apt}</option>)}
@@ -120,7 +121,7 @@ const PackageManagment =()=>{
         </div>
         <div>        
             <label className="m-2">Package(s):</label>
-            <input type="number" min={0} className="m-2 w-20 text-center" value={editPkg} onChange={(e)=> setEditPkg(parseInt(e.target.value))} />
+            <input type="number" min={0} className="m-2 w-20 text-center" value={formState.inputs.editPkg} onChange={(e)=> inputHandler("editPkg",parseInt(e.target.value))} />
         </div>
         </>
     )
@@ -145,15 +146,14 @@ const PackageManagment =()=>{
         modalTitle="Error" 
         modalBody={error} 
         handleModal={setShowAddEntry} 
-        
         clearInput={clearError} />}
         {dashboard}
         {showAddEntry && <Modal inputModal 
         modalTitle="Add Packages" 
         modalBody={addPackageModal} 
         handleModal={setShowAddEntry} 
-        handleSubmit ={()=>handleUpdate(focusApt,editPkg)}
-        clearInput={()=>{setEditPkg(0); setFocusApt()}} />}
+        handleSubmit ={()=>handleUpdate(formState.inputs.editApt,formState.inputs.editPkg)}
+        clearInputs={()=>{clearInput("editPkg"); clearInput("editApt");clearInput("editComment");}} />}
         {/* {showNotify && <Modal modalTitle="Notify Tenants" modalBody={NotifyBody} handleModal={setShowNotify}/>} */}
         </>
     )

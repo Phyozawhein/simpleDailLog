@@ -40,9 +40,10 @@ const Auth =()=>{
        
             <div className="w-full h-full flex items-center justify-center">
                 <div className="authCard" >
-                    <h1 className="authTitle">Welcome to 123 South Front Desk</h1>
-                    {error&&error  // replace it with error modal 
-                    } 
+                    <h1 className="authTitle">Simple DailiLog </h1>
+                    {
+                        error&&<span className="authError">{error}</span> // replace it with error modal 
+                    }
                     <form onSubmit={authSubmitHandler} className="authForm">
 
                         <Input 
@@ -61,7 +62,7 @@ const Auth =()=>{
                         inputHandler={inputHandler}
                         required
                        />
-                        <Input type="submit" value="Login"/>
+                        <Input className="cursor-pointer" type="submit" value="Login"/>
                     </form>
                 </div>
             </div>

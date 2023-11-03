@@ -2,12 +2,12 @@ import React from 'react';
 import './Modal.css';
 import xMark from '../../../assets/img/xMarkLined.svg';
 
-const Modal =({handleModal,modalTitle, modalBody, clearInput, inputModal,handleSubmit ,errorModal})=>{
+const Modal =({handleModal,modalTitle, modalBody, clearInputs, inputModal,handleSubmit ,errorModal})=>{
     
   const closeModal =()=>{
       handleModal(false);
       if(inputModal || errorModal){
-         clearInput(); //   * Be sure to clear the input so that we dont save any changes we dont intend to make *
+         clearInputs(); //   * Be sure to clear the input so that we dont save any changes we dont intend to make *
       }
 
     }
