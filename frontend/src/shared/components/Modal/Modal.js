@@ -2,7 +2,7 @@ import React from 'react';
 import './Modal.css';
 import xMark from '../../../assets/img/xMarkLined.svg';
 
-const Modal =({handleModal,modalTitle, modalBody, clearInputs, inputModal,handleSubmit ,errorModal})=>{
+const Modal =({handleModal,modalTitle, modalBody, checkInputs,clearInputs, inputModal,handleSubmit ,errorModal})=>{
     
   const closeModal =()=>{
       handleModal(false);
@@ -39,7 +39,8 @@ const Modal =({handleModal,modalTitle, modalBody, clearInputs, inputModal,handle
               {inputModal && <>
                 <button 
                 type="submit"
-                className="m-2 p-1 border border-black bg-green-400 rounded-full hover:bg-green-200" 
+                className={`m-2 p-1 border border-black bg-green-400 rounded-full ${checkInputs && "opacity-50"} ${!checkInputs &&"hover:bg-green-200" }`}
+                disabled={checkInputs}
                 onClick={(e)=> {
                   e.preventDefault();
                   submitHandler();

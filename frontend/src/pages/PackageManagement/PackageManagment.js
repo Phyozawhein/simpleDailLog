@@ -15,8 +15,7 @@ const PackageManagment =()=>{
 
     const [showAddEntry,setShowAddEntry] = useState(false);
     // const [showNotify,setShowNotify] = useState(false);
-    // const [editPkg,setEditPkg] = useState()
-    // const [focusApt,setFocusApt]= useState()
+
 
     const auth = useContext(AuthContext);
 
@@ -111,9 +110,11 @@ const PackageManagment =()=>{
             <label className="m-2 ">Apartment:</label>
             <select className="m-2 w-20 text-center" onChange={(e)=>{
                 let res=formState.packages.filter((item)=> item.apt === e.target.value);
-                let {pkg,apt} = res.length > 0 ? {pkg:res[0].packages, apt:res[0].apt} : {pkg:0,apt:""};
-                inputHandler("editPkg",parseInt(pkg))
-                inputHandler("editApt",formState.packages.findIndex((item)=>item.apt === apt))
+                let {pkg,apt} = res.length > 0 ? {pkg:res[0].packages, apt:res[0].apt} : {pkg:undefined,apt:undefined};
+                pkg = isNaN(pkg) ? undefined : parseInt(pkg);
+                apt = isNaN(pkg) ? undefined : formState.packages.findIndex((item)=>item.apt === apt);
+                inputHandler("editPkg",pkg)
+                inputHandler("editApt",apt)
                 }}>
                 <option value="-">-</option>
                 {formState.packages.map((item,indx)=> <option   value={item.apt} key={indx}>{item.apt}</option>)}
@@ -121,7 +122,7 @@ const PackageManagment =()=>{
         </div>
         <div>        
             <label className="m-2">Package(s):</label>
-            <input type="number" min={0} className="m-2 w-20 text-center" value={formState.inputs.editPkg} onChange={(e)=> inputHandler("editPkg",parseInt(e.target.value))} />
+            <input type="number" min={0} className="m-2 w-20 text-center" value={formState.inputs.editPkg ? formState.inputs.editPkg  : 0} onChange={(e)=> inputHandler("editPkg",parseInt(e.target.value))} />
         </div>
         </>
     )
@@ -153,6 +154,7 @@ const PackageManagment =()=>{
         modalBody={addPackageModal} 
         handleModal={setShowAddEntry} 
         handleSubmit ={()=>handleUpdate(formState.inputs.editApt,formState.inputs.editPkg)}
+        checkInputs= { formState.inputs.editApt === undefined && formState.inputs.editPkg === undefined }
         clearInputs={()=>{clearInput("editPkg"); clearInput("editApt");clearInput("editComment");}} />}
         {/* {showNotify && <Modal modalTitle="Notify Tenants" modalBody={NotifyBody} handleModal={setShowNotify}/>} */}
         </>

@@ -21,7 +21,7 @@ const formReducer =(state,action)=>{
             ...state,
             inputs:{
                 ...state.inputs,
-                [action.inputId]:null
+                [action.inputId]:undefined
             }
         }
         default : return state;
