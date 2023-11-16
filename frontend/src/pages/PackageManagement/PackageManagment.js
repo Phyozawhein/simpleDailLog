@@ -7,6 +7,7 @@ import plus from '../../assets/img/plus.svg';
 import bell from '../../assets/img/bell.svg';
 import Card from '../../shared/components/Card/Card'
 import './PackageManagement.css';
+import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
 
 const PackageManagment =()=>{
     const {isLoading, error, sendRequest, clearError}=useHttpClient();
@@ -88,6 +89,7 @@ const PackageManagment =()=>{
             <button className="DBBtn  hover:bg-green-500" onClick={()=>setShowAddEntry(true)}><img  src={plus} alt="add package entry"/></button>
             {/* <button className="DBBtn  hover:bg-yellow-500" onClick={()=>setShowNotify(true)}><img  src={bell} alt="notify tenants" /></button>        */}
         </span>
+        {isLoading ? <LoadingSpinner /> :
         <ul className="dashboard">
             {formState.packages && formState.packages.map((data,index) =>data.packages>0?
             <Card key={index}
@@ -100,7 +102,7 @@ const PackageManagment =()=>{
              : 
              null)}
         </ul>
-
+    }
     </div>
     )
 
