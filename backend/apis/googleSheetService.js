@@ -71,8 +71,8 @@ async function saveCredentials(client) {
       async function listPackages(auth){
         const sheets = google.sheets({version: 'v4', auth});
         const res = await sheets.spreadsheets.values.get({
-          spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-          range: 'Sheet3!A2:B',
+          spreadsheetId: process.env.DEV_SHEET_ID,
+          range:`${process.env.DEV_SHEET_PACKAGELIST}!A2:B`,
         });
         return res.data.values;
       }
@@ -80,8 +80,8 @@ async function saveCredentials(client) {
       async function getLoginData(auth){
         const sheets = google.sheets({version: 'v4', auth});
         const res = await sheets.spreadsheets.values.get({
-          spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-          range: 'Sheet2!A1:B1',
+          spreadsheetId: process.env.DEV_SHEET_ID,
+          range: `${process.env.DEV_SHEET_LOGIN}!A1:B1`,
         });
         const row = res.data.values[0];
         return {email:row[0], password:row[1]}
@@ -92,8 +92,8 @@ async function saveCredentials(client) {
         const data = sheets.spreadsheets.values.update(
           {
             auth: auth,
-            spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-            range: "Sheet3!A2:B",
+            spreadsheetId: process.env.DEV_SHEET_ID,
+            range: `${process.env.DEV_SHEET_PACKAGELIST}!A2:B`,
             valueInputOption: "USER_ENTERED",
             resource: {values: payload},
           }
@@ -106,8 +106,8 @@ async function saveCredentials(client) {
         const data = sheets.spreadsheets.values.append(
           {
             auth: auth,
-            spreadsheetId: '1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE',
-            range: "inventoryLog!A2:B",
+            spreadsheetId: process.env.DEV_SHEET_ID,
+            range:`${process.env.DEV_SHEET_INVENTORYLOG}!A2:B`,
             insertDataOption: "INSERT_ROWS",
             valueInputOption: "USER_ENTERED",
             resource: {values: payload},

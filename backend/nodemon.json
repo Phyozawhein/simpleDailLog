@@ -1,0 +1,8 @@
+{
+    "env":{
+        "DEV_SHEET_ID": "1Rjbq_DBlU62ZuF10kMQj5rnFyAltlMxfrMLmSiY2mCE",
+        "DEV_SHEET_LOGIN":"Sheet1",
+        "DEV_SHEET_PACKAGELIST" :"packageList",
+        "DEV_SHEET_INVENTORYLOG":"inventoryLog"
+    }
+}
