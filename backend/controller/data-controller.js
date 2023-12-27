@@ -7,6 +7,7 @@ const {getInventory, logInventory, authLogin, updatePackageList}= googleSheetSer
 
 
 const login= async (req,res,next)=>{
+   
     const {email,password} = req.body;
     let credentials ;
     if (!email || !password){
