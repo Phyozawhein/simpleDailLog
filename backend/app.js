@@ -1,4 +1,5 @@
 const express =require('express');
+const HttpError = require('./models/http-error');
 const bodyParser = require('body-parser');
 const dataRoutes = require('./routes/data-routes');
 
