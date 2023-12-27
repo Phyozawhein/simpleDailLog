@@ -89,7 +89,7 @@ const PackageManagment =()=>{
             <button className="DBBtn  hover:bg-green-500" onClick={()=>setShowAddEntry(true)}><img  src={plus} alt="add package entry"/></button>
             {/* <button className="DBBtn  hover:bg-yellow-500" onClick={()=>setShowNotify(true)}><img  src={bell} alt="notify tenants" /></button>        */}
         </span>
-        {isLoading ? <LoadingSpinner /> :
+        {isLoading || formState.packages === undefined ? <LoadingSpinner /> :
         <ul className="dashboard">
             {formState.packages && formState.packages.map((data,index) =>data.packages>0?
             <Card key={index}
