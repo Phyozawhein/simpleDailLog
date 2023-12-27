@@ -25,7 +25,7 @@ const PackageManagment =()=>{
     const pullPackageData = async ()=>{
         
         try{
-                const response = await  sendRequest('http://localhost:5000/api/packages',
+                const response = await  sendRequest(process.env.REACT_APP_BACKEND_URL+'/packages',
                 'GET',
                 null,
                 {
@@ -53,7 +53,7 @@ const PackageManagment =()=>{
 
         try{
             // must add a measure where if there was an error the values arent changed.
-            const response = await  sendRequest('http://localhost:5000/api/packages/update',
+            const response = await  sendRequest(process.env.REACT_APP_BACKEND_URL+'/packages/update',
             'PUT',
             JSON.stringify({
                 update:payload,

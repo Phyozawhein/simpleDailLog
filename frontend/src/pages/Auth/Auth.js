@@ -16,8 +16,8 @@ const Auth =()=>{
     const navigate = useNavigate();
     const authSubmitHandler = async (event)=>{
         event.preventDefault();
-        try{
-                const response = await  sendRequest('http://localhost:5000/api/login',
+        try{    
+                const response = await  sendRequest(process.env.REACT_APP_BACKEND_URL+'/login',
                 'POST',
                 JSON.stringify({
                     email: formState.inputs.email.trim(),
