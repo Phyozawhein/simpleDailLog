@@ -5,7 +5,7 @@ import AuthContext from '../../context/auth/auth-context';
 import Modal from '../../shared/components/Modal/Modal';
 import plus from '../../assets/img/plus.svg';
 import bell from '../../assets/img/bell.svg';
-import Card from '../../shared/components/Card/Card'
+import Card from '../../shared/components/Card/Card.js'
 import './PackageManagement.css';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
 
