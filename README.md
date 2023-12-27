@@ -10,3 +10,9 @@ A simple version of "dailiLog" project, this project allows user to keep track o
 - Frontend: React.JS, Tailwind CSS
 - Backend: Node.JS
 - Database: Google Docs
+
+The mock version of this web app is hosted on : https://simpledaililog.onrender.com
+
+To test the app, please use the following credentials :
+- email : test@gmail.com
+- password: testpassword 
