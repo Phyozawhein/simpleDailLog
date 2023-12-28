@@ -34,7 +34,7 @@ function App() {
         <Route 
         path="/" 
         element={<Home/>}/>
-        <Route place="*" element={<Navigate to="/" replace/>}/>
+        <Route place="/*" element={<Navigate to="/" replace/>}/>
       </Routes>
       </React.Fragment>
     )
@@ -46,7 +46,8 @@ function App() {
         <Route 
           path="/login" 
           element={<Auth />} />
-        <Route path="*" element={<Navigate to="/login" />}/>
+        <Route path="/*" element={<Navigate to="/login" replace/>}/>
+        
       </Routes>
     )
   }
