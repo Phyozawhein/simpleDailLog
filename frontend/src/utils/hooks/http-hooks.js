@@ -23,11 +23,12 @@ export const useHttpClient=()=>{
 
             activeHttpRequests.current = activeHttpRequests.current.filter(
                 reqCtrl=> reqCtrl!==httpAbortCtrl);
-            
+            setIsLoading(false);
             if (!response.ok){
+               
                 throw new Error(resData.message);
             }
-           setIsLoading(false);
+           
            return resData;
 
         }catch(err){
