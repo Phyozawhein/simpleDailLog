@@ -33,6 +33,7 @@ function App() {
         />
         <Route 
         path="/" 
+        exact
         element={<Home/>}/>
         <Route place="/*" element={<Navigate to="/" replace/>}/>
       </Routes>
